@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Keyframes ────────────────────────────────────────────────────────────── */
+
+/* Slow hue-shift wave for hero/dark section backgrounds */
+@keyframes bg-wave {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Slow oscillating shimmer on buttons — alternate ensures a perfect seamless loop */
+@keyframes btn-shimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 100% center; }
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply font-sans text-gray-800 bg-white;
+  }
+}
+
+/* ── Components ───────────────────────────────────────────────────────────── */
+
+@layer components {
+  .btn-primary {
+    @apply inline-block text-white font-bold py-4 px-8 rounded-xl text-lg
+           focus:outline-none focus:ring-4 focus:ring-sky-brand/40
+           shadow-lg hover:shadow-xl;
+    background: linear-gradient(
+      90deg,
+      #0096c7 0%,
+      #48cae4 50%,
+      #0096c7 100%
+    );
+    background-size: 200% auto;
+    /* alternate = animazione va avanti poi torna indietro: loop perfetto, zero artefatti */
+    animation: btn-shimmer 5s ease-in-out infinite alternate;
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-primary-lg {
+    @apply btn-primary text-xl py-5 px-10;
+  }
+
+  .section-title {
+    @apply text-2xl md:text-3xl font-bold text-navy text-center mb-2;
+  }
+
+  .section-subtitle {
+    @apply text-base md:text-lg text-gray-500 text-center mb-10 max-w-xl mx-auto;
+  }
+
+  /* Hero and final CTA sections get the animated background wave */
+  .hero-bg {
+    background: linear-gradient(
+      135deg,
+      #0e3359 0%,
+      #1a4b77 25%,
+      #1260a8 50%,
+      #1a4b77 75%,
+      #0e3359 100%
+    );
+    background-size: 300% 300%;
+    animation: bg-wave 12s ease infinite;
+  }
+
+  .cta-bg {
+    background: linear-gradient(
+      135deg,
+      #081e38 0%,
+      #0e3a61 30%,
+      #1a4b77 60%,
+      #0e3a61 80%,
+      #081e38 100%
+    );
+    background-size: 300% 300%;
+    animation: bg-wave 14s ease infinite;
+  }
+}
