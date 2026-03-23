@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "homepage": "https://fabiomauro.github.io/ear-bridge",
+  "homepage": "https://fabiopsh.github.io/ear-bridge",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
