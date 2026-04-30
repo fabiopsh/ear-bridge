@@ -1,5 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import { translations, type Lang, type Translations } from './i18n'
+import { LangToggle } from './components/MockupLayout'
+import ScreenTest from './screens/ScreenTest'
+import ScreenBookings from './screens/ScreenBookings'
+import ScreenReports from './screens/ScreenReports'
 
 const FORM_URL = 'https://forms.gle/akaJ5u8PPrLsB6386'
 
@@ -67,26 +72,34 @@ function IconQuote() {
   )
 }
 
-// ── Language toggle ──────────────────────────────────────────────────────────
-
-interface LangToggleProps {
-  lang: Lang
-  onToggle: () => void
+function IconEar() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="w-7 h-7">
+      <path d="M6 12a6 6 0 1 1 12 0c0 2.5-1.5 4-3 5.5S12 21 12 21" />
+      <path d="M9 12a3 3 0 1 1 6 0c0 1.5-1 2.5-2 3.5" />
+      <circle cx="12" cy="20" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  )
 }
 
-function LangToggle({ lang, onToggle }: LangToggleProps) {
-  const isEn = lang === 'en'
+function IconDocument() {
   return (
-    <button
-      onClick={onToggle}
-      aria-label={isEn ? 'Switch to Italian' : 'Passa all\'inglese'}
-      className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-navy transition-colors px-2 py-1 rounded-lg hover:bg-gray-100"
-    >
-      <span className={isEn ? 'text-navy font-bold' : 'text-gray-400'}>EN</span>
-      <span className="text-gray-300 select-none">|</span>
-      <span className={!isEn ? 'text-navy font-bold' : 'text-gray-400'}>IT</span>
-    </button>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="w-7 h-7">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="16" y1="13" x2="8" y2="13" />
+      <line x1="16" y1="17" x2="8" y2="17" />
+      <polyline points="10 9 9 9 8 9" />
+    </svg>
   )
+}
+
+// ── Scroll to top on route change ────────────────────────────────────────────
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
 }
 
 // ── Subcomponents ────────────────────────────────────────────────────────────
@@ -237,6 +250,49 @@ function Benefits({ t }: BenefitsProps) {
   )
 }
 
+// ── Platform Preview section ─────────────────────────────────────────────────
+
+const previewIcons = [<IconEar />, <IconCalendar />, <IconDocument />]
+const previewRoutes = ['/test', '/bookings', '/reports']
+
+interface PlatformPreviewProps { t: Translations }
+
+function PlatformPreview({ t }: PlatformPreviewProps) {
+  return (
+    <section className="bg-gray-50 py-16 md:py-20">
+      <div className="max-w-5xl mx-auto px-4">
+        <p className="text-center text-sky-brand text-sm font-semibold uppercase tracking-widest mb-3">
+          {t.platformPreview.eyebrow}
+        </p>
+        <h2 className="section-title">{t.platformPreview.title}</h2>
+        <p className="section-subtitle">{t.platformPreview.subtitle}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-2">
+          {t.platformPreview.cards.map((card, i) => (
+            <div
+              key={i}
+              className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col gap-3 hover:shadow-md transition-shadow"
+            >
+              <div className="w-12 h-12 rounded-xl bg-sky-brand/10 text-sky-brand flex items-center justify-center">
+                {previewIcons[i]}
+              </div>
+              <h3 className="font-bold text-navy text-lg">{card.label}</h3>
+              <p className="text-gray-500 text-sm leading-relaxed flex-1">{card.description}</p>
+              <Link
+                to={previewRoutes[i]}
+                className="inline-flex items-center text-sm font-semibold text-sky-brand hover:text-navy transition-colors mt-1"
+              >
+                {card.cta}
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── Social Proof, FinalCTA, Footer ───────────────────────────────────────────
+
 interface SocialProofProps { t: Translations }
 
 function SocialProof({ t }: SocialProofProps) {
@@ -319,23 +375,46 @@ function Footer({ t }: FooterProps) {
   )
 }
 
-// ── Page ─────────────────────────────────────────────────────────────────────
+// ── Landing Page ─────────────────────────────────────────────────────────────
 
-export default function App() {
-  const [lang, setLang] = useState<Lang>('en')
+interface LandingPageProps {
+  lang: Lang
+  onToggleLang: () => void
+}
+
+function LandingPage({ lang, onToggleLang }: LandingPageProps) {
   const t = translations[lang]
-
   return (
     <div className="min-h-screen flex flex-col" lang={lang}>
-      <Navbar t={t} lang={lang} onToggleLang={() => setLang(l => l === 'en' ? 'it' : 'en')} />
+      <Navbar t={t} lang={lang} onToggleLang={onToggleLang} />
       <main>
         <Hero t={t} />
         <HowItWorks t={t} />
         <Benefits t={t} />
+        <PlatformPreview t={t} />
         <SocialProof t={t} />
         <FinalCTA t={t} />
       </main>
       <Footer t={t} />
     </div>
+  )
+}
+
+// ── Routing shell ─────────────────────────────────────────────────────────────
+
+export default function App() {
+  const [lang, setLang] = useState<Lang>('en')
+  const toggleLang = () => setLang(l => (l === 'en' ? 'it' : 'en'))
+
+  return (
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<LandingPage lang={lang} onToggleLang={toggleLang} />} />
+        <Route path="/test" element={<ScreenTest lang={lang} onToggleLang={toggleLang} />} />
+        <Route path="/bookings" element={<ScreenBookings lang={lang} onToggleLang={toggleLang} />} />
+        <Route path="/reports" element={<ScreenReports lang={lang} onToggleLang={toggleLang} />} />
+      </Routes>
+    </>
   )
 }

@@ -4,6 +4,14 @@ export interface Translations {
   nav: {
     cta: string
   }
+  platformPreview: {
+    eyebrow: string
+    title: string
+    subtitle: string
+    badge: string
+    backLabel: string
+    cards: Array<{ label: string; description: string; cta: string }>
+  }
   hero: {
     badge: string
     headline: string
@@ -44,6 +52,30 @@ export interface Translations {
 const en: Translations = {
   nav: {
     cta: 'Book now',
+  },
+  platformPreview: {
+    eyebrow: 'Platform Preview',
+    title: 'See how EarBridge works',
+    subtitle: 'Explore the key workflows that power the platform — from the first screening test to the final report.',
+    badge: 'Platform preview · mockup data',
+    backLabel: '← EarBridge Home',
+    cards: [
+      {
+        label: 'Free Audiological Screening',
+        description: 'A guided self-assessment test that collects preliminary clinical data and sends it directly to the specialist before the visit.',
+        cta: 'Try the test →',
+      },
+      {
+        label: 'Booking & Schedule Management',
+        description: 'Full calendar management for specialists: confirm appointments, reschedule visits, and monitor weekly workload at a glance.',
+        cta: 'See the dashboard →',
+      },
+      {
+        label: 'Patient Reports & Receipts',
+        description: 'From audiogram data to automated medical reports and fiscal receipts — everything generated and sent in one click.',
+        cta: 'View a report →',
+      },
+    ],
   },
   hero: {
     badge: 'Now available in Pisa & Empoli',
@@ -121,6 +153,30 @@ const en: Translations = {
 const it: Translations = {
   nav: {
     cta: 'Prenota ora',
+  },
+  platformPreview: {
+    eyebrow: 'Anteprima Piattaforma',
+    title: 'Scopri come funziona EarBridge',
+    subtitle: 'Esplora i flussi principali della piattaforma — dal primo test di screening fino al report finale.',
+    badge: 'Anteprima piattaforma · dati di esempio',
+    backLabel: '← Home EarBridge',
+    cards: [
+      {
+        label: 'Screening Audiologico Gratuito',
+        description: 'Un test guidato di autovalutazione che raccoglie dati clinici preliminari e li invia direttamente allo specialista prima della visita.',
+        cta: 'Prova il test →',
+      },
+      {
+        label: 'Gestione Prenotazioni',
+        description: 'Gestione completa del calendario per gli specialisti: conferma appuntamenti, riprogramma visite e monitora il carico settimanale.',
+        cta: 'Vedi la dashboard →',
+      },
+      {
+        label: 'Report e Ricevute Paziente',
+        description: 'Dall\'audiogramma ai referti medici automatici e alle ricevute fiscali — tutto generato e inviato in un clic.',
+        cta: 'Vedi un report →',
+      },
+    ],
   },
   hero: {
     badge: 'Ora disponibile a Pisa e Empoli',
